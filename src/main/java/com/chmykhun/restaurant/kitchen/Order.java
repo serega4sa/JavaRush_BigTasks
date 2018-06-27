@@ -15,6 +15,7 @@ public class Order {
 
     public Order(Tablet tablet) throws IOException {
         this.tablet = tablet;
+        ConsoleHelper.writeMessage(String.format(ConsoleHelper.Messages.orderHeadFormat, tablet.getNumber()));
         orderedDishes = ConsoleHelper.getAllDishesForOrder();
     }
 

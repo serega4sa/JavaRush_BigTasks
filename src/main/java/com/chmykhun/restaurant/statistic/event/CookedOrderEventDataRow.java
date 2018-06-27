@@ -38,6 +38,6 @@ public class CookedOrderEventDataRow implements EventDataRow {
 
     @Override
     public int getTime() {
-        return 0;
+        return cookingTimeSeconds;
     }
 }

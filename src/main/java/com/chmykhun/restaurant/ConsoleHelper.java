@@ -13,6 +13,7 @@ public class ConsoleHelper {
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     public interface Messages {
+        String orderHeadFormat = "\n *** Order from tablet #%d ***";
         String chooseDish = "Please, choose a dish from the list:";
         String orderInfo = "Your order: [%s] of Tablet{number=%d}";
         String consoleUnavailable = "Console is unavailable.";
@@ -23,7 +24,11 @@ public class ConsoleHelper {
         String videoProcessing = "%s is displaying... %d, %d";
         String noSuitableVideo = "No video is available for the order ";
 
+        String reportHead = "\n=== Restaurant overall report ===";
+        String advertisementReportHead = "\n--- Advertisement profit report ---";
         String advertisementReportFormat = "%s - %d";
+        String cookWorkloadReportHead = "\n--- Cook workload report ---";
+        String cookWorkloadReportFormat = "%s - %d min";
     }
 
     public static void writeMessage(String message) {
