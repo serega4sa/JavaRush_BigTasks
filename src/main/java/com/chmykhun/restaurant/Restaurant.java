@@ -2,7 +2,7 @@ package com.chmykhun.restaurant;
 
 import com.chmykhun.restaurant.kitchen.Cook;
 import com.chmykhun.restaurant.kitchen.Waitor;
-import com.chmykhun.restaurant.statistic.StatisticManager;
+import com.chmykhun.restaurant.statistic.StatisticEventManager;
 
 public class Restaurant {
 
@@ -10,7 +10,7 @@ public class Restaurant {
         Waitor waitor = new Waitor();
         Cook cook = new Cook("Amigo");
         cook.addObserver(waitor);
-        StatisticManager.getInstance().register(cook);
+        StatisticEventManager.getInstance().register(cook);
 
         Tablet tablet = new Tablet(1);
         tablet.addObserver(cook);

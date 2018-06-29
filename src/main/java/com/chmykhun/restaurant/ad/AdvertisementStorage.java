@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 class AdvertisementStorage {
+
     private static final AdvertisementStorage storage = new AdvertisementStorage();
     private List<Advertisement> videos = new ArrayList<>();
 
-    public AdvertisementStorage() {
+    private AdvertisementStorage() {
         addAdVideo(new Advertisement( "First video", 5000, 100, 3 * 60));
         addAdVideo(new Advertisement( "Second video", 100, 10, 15 * 60));
         addAdVideo(new Advertisement( "Third video", 400, 2, 10 * 60));
     }
 
-    public static AdvertisementStorage getAdStorage() {
+    public static AdvertisementStorage getInstance() {
         return storage;
     }
 

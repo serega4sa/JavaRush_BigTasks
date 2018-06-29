@@ -1,6 +1,7 @@
 package com.chmykhun.restaurant.statistic;
 
 import com.chmykhun.restaurant.ad.Advertisement;
+import com.chmykhun.restaurant.ad.StatisticAdvertisementManager;
 import com.chmykhun.restaurant.kitchen.Cook;
 import com.chmykhun.restaurant.statistic.event.CookedOrderEventDataRow;
 import com.chmykhun.restaurant.statistic.event.EventDataRow;
@@ -15,19 +16,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class StatisticManager {
+public class StatisticEventManager {
 
-    private static StatisticManager manager = new StatisticManager();
+    private static StatisticEventManager manager = new StatisticEventManager();
     private StatisticStorage storage;
     private Map<String, Long> advertisementProfitReport;
     private Map<String, Map<Cook, Long>> cookWorkloadingReport;
     private Set<Cook> cookSet = new HashSet<>();
 
-    public static StatisticManager getInstance() {
+    public static StatisticEventManager getInstance() {
         return manager;
     }
 
-    private StatisticManager() {
+    private StatisticEventManager() {
         storage = new StatisticStorage();
     }
 
@@ -124,11 +125,11 @@ public class StatisticManager {
     }
 
     public List<Advertisement> getActiveVideoSet() {
-        return null;
+        return StatisticAdvertisementManager.getInstance().getActiveAdVideos();
     }
 
     public List<Advertisement> getArchivedVideoSet() {
-        return null;
+        return StatisticAdvertisementManager.getInstance().getArchivedAdVideos();
     }
 
     class StatisticStorage {

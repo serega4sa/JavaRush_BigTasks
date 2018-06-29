@@ -4,7 +4,7 @@ import com.chmykhun.restaurant.ConsoleHelper;
 import com.chmykhun.restaurant.Tablet;
 import com.chmykhun.restaurant.ad.AdvertisementManager;
 import com.chmykhun.restaurant.ad.NoVideoAvailableException;
-import com.chmykhun.restaurant.statistic.StatisticManager;
+import com.chmykhun.restaurant.statistic.StatisticEventManager;
 import com.chmykhun.restaurant.statistic.event.CookedOrderEventDataRow;
 
 import java.util.Observable;
@@ -38,7 +38,7 @@ public class Cook extends Observable implements Observer{
         } catch (NoVideoAvailableException e1) {
             logger.log(Level.INFO, ConsoleHelper.Messages.noSuitableVideo + order.toString());
         }
-        StatisticManager.getInstance().register(new CookedOrderEventDataRow(String.valueOf(((Order) order).getTablet().getNumber()), cookName, ((Order) order).getTotalCookingTime(), ((Order) order).getOrderedDishes()));
+        StatisticEventManager.getInstance().register(new CookedOrderEventDataRow(String.valueOf(((Order) order).getTablet().getNumber()), cookName, ((Order) order).getTotalCookingTime(), ((Order) order).getOrderedDishes()));
         setChanged();
         notifyObservers(order);
     }

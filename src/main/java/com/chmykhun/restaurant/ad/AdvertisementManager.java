@@ -1,14 +1,15 @@
 package com.chmykhun.restaurant.ad;
 
 import com.chmykhun.restaurant.ConsoleHelper;
-import com.chmykhun.restaurant.statistic.StatisticManager;
+import com.chmykhun.restaurant.statistic.StatisticEventManager;
 import com.chmykhun.restaurant.statistic.event.NoAvailableVideoEventDataRow;
 import com.chmykhun.restaurant.statistic.event.VideoSelectedEventDataRow;
 
 import java.util.*;
 
 public class AdvertisementManager {
-    private static final AdvertisementStorage storage = new AdvertisementStorage();
+
+    private static final AdvertisementStorage storage = AdvertisementStorage.getInstance();
     private int timeSeconds;
 
     public AdvertisementManager(int timeSeconds) {
@@ -27,14 +28,14 @@ public class AdvertisementManager {
             if (advertisement.getDuration() <= timeSeconds) {
                 isVideoFound = true;
                 int amountPerSecond = (int) (advertisement.getAmountPerOneDisplaying() * 1000 / advertisement.getDuration());
-                StatisticManager.getInstance().register(new VideoSelectedEventDataRow(Collections.singletonList(advertisement), amountPerSecond, advertisement.getDuration()));
+                StatisticEventManager.getInstance().register(new VideoSelectedEventDataRow(Collections.singletonList(advertisement), amountPerSecond, advertisement.getDuration()));
                 ConsoleHelper.writeMessage(String.format(ConsoleHelper.Messages.videoProcessing, advertisement.getName(), advertisement.getAmountPerOneDisplaying(), amountPerSecond));
                 advertisement.revalidate();
                 processVideos(timeSeconds - advertisement.getDuration());
             }
         }
         if (!isVideoFound) {
-            StatisticManager.getInstance().register(new NoAvailableVideoEventDataRow(timeSeconds));
+            StatisticEventManager.getInstance().register(new NoAvailableVideoEventDataRow(timeSeconds));
             throw new NoVideoAvailableException();
         }
     }

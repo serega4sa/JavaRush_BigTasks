@@ -26,9 +26,11 @@ public class ConsoleHelper {
 
         String reportHead = "\n=== Restaurant overall report ===";
         String advertisementReportHead = "\n--- Advertisement profit report ---";
-        String advertisementReportFormat = "%s - %d";
+        String commonReportFormat = "%s - %d";
         String cookWorkloadReportHead = "\n--- Cook workload report ---";
         String cookWorkloadReportFormat = "%s - %d min";
+        String activeVideoReportHead = "\n--- Active advertisement video report ---";
+        String archivedVideoReportHead = "\n--- Archived advertisement video report ---";
     }
 
     public static void writeMessage(String message) {
