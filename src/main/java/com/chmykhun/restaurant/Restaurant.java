@@ -1,6 +1,7 @@
 package com.chmykhun.restaurant;
 
 import com.chmykhun.restaurant.kitchen.Cook;
+import com.chmykhun.restaurant.kitchen.OrderManager;
 import com.chmykhun.restaurant.kitchen.Waitor;
 import com.chmykhun.restaurant.statistic.StatisticEventManager;
 
@@ -13,13 +14,14 @@ public class Restaurant {
         Waitor waitor = new Waitor();
 
         List<Cook> cooks = createCooks(waitor, "Amigo", "Jack");
-        List<Tablet> tablets = createTablets(2);
-        createObservers(tablets, cooks);
+        List<Tablet> tablets = createTablets(5);
+        OrderManager orderManager = new OrderManager();
+        createObservers(tablets, orderManager);
         createOrders(tablets);
         createDirectorReport();
     }
 
-    protected static List<Cook> createCooks(Waitor waitor, String ... cooknames) {
+    protected static List<Cook> createCooks(Waitor waitor, String... cooknames) {
         List<Cook> cooks = new ArrayList<>();
         for (String cookname : cooknames) {
             Cook cook = new Cook(cookname);
@@ -38,11 +40,9 @@ public class Restaurant {
         return tablets;
     }
 
-    private static void createObservers(List<Tablet> tablets, List<Cook> cooks) {
+    private static void createObservers(List<Tablet> tablets, OrderManager orderManager) {
         for (Tablet tablet : tablets) {
-            for (Cook cook : cooks) {
-                tablet.addObserver(cook);
-            }
+            tablet.addObserver(orderManager);
         }
     }
 

@@ -8,13 +8,13 @@ import com.chmykhun.restaurant.statistic.StatisticEventManager;
 import com.chmykhun.restaurant.statistic.event.CookedOrderEventDataRow;
 
 import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Cook extends Observable implements Observer {
+public class Cook extends Observable {
 
     private String cookName;
+    private boolean busy;
     private static Logger logger = Logger.getLogger(Tablet.class.getName());
 
     public Cook(String name) {
@@ -25,21 +25,29 @@ public class Cook extends Observable implements Observer {
         return cookName;
     }
 
-    @Override
-    public String toString() {
-        return cookName;
+    public boolean isBusy() {
+        return busy;
+    }
+
+    public void startCookingOrder(Order order) {
+        busy = true;
+        ConsoleHelper.writeMessage(ConsoleHelper.Messages.startCooking + order.toString() + String.format(ConsoleHelper.Messages.cookingTime, order.getTotalCookingTime() / 60));
+        try {
+            new AdvertisementManager(order.getTotalCookingTime()).processVideos();
+            Thread.sleep(order.getTotalCookingTime() / 6);
+        } catch (NoVideoAvailableException e1) {
+            logger.log(Level.INFO, ConsoleHelper.Messages.noSuitableVideo + order.toString());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        StatisticEventManager.getInstance().register(new CookedOrderEventDataRow(String.valueOf(order.getTablet().getNumber()), cookName, order.getTotalCookingTime(), order.getOrderedDishes()));
+        setChanged();
+        notifyObservers(order);
+        busy = false;
     }
 
     @Override
-    public void update(Observable tablet, Object order) {
-        ConsoleHelper.writeMessage(ConsoleHelper.Messages.startCooking + order.toString() + String.format(ConsoleHelper.Messages.cookingTime, ((Order) order).getTotalCookingTime() / 60));
-        try {
-            new AdvertisementManager(((Order) order).getTotalCookingTime()).processVideos();
-        } catch (NoVideoAvailableException e1) {
-            logger.log(Level.INFO, ConsoleHelper.Messages.noSuitableVideo + order.toString());
-        }
-        StatisticEventManager.getInstance().register(new CookedOrderEventDataRow(String.valueOf(((Order) order).getTablet().getNumber()), cookName, ((Order) order).getTotalCookingTime(), ((Order) order).getOrderedDishes()));
-        setChanged();
-        notifyObservers(order);
+    public String toString() {
+        return cookName;
     }
 }

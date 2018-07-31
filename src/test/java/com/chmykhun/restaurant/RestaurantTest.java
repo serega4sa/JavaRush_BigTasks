@@ -13,7 +13,7 @@ public class RestaurantTest extends Restaurant {
 
         List<Cook> cooks = createCooks(waitor, "Amigo", "Jack");
 
-        Runnable testFlow = new RandomOrderGeneratorTask(createTestTablets(2), cooks);
+        Runnable testFlow = new RandomOrderGeneratorTask(createTestTablets(2));
         testFlow.run();
 
         try {
