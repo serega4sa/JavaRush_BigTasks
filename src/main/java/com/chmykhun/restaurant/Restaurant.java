@@ -11,12 +11,23 @@ public class Restaurant {
 
     public static void main(String[] args) {
         Waitor waitor = new Waitor();
-        Cook cook = new Cook("Amigo");
-        cook.addObserver(waitor);
-        StatisticEventManager.getInstance().register(cook);
 
-        createOrders(createTablets(2), cook);
+        List<Cook> cooks = createCooks(waitor, "Amigo", "Jack");
+        List<Tablet> tablets = createTablets(2);
+        createObservers(tablets, cooks);
+        createOrders(tablets);
         createDirectorReport();
+    }
+
+    protected static List<Cook> createCooks(Waitor waitor, String ... cooknames) {
+        List<Cook> cooks = new ArrayList<>();
+        for (String cookname : cooknames) {
+            Cook cook = new Cook(cookname);
+            cook.addObserver(waitor);
+            cooks.add(cook);
+            StatisticEventManager.getInstance().register(cook);
+        }
+        return cooks;
     }
 
     protected static List<Tablet> createTablets(int number) {
@@ -27,9 +38,16 @@ public class Restaurant {
         return tablets;
     }
 
-    protected static void createOrders(List<Tablet> tablets, Cook cook) {
+    private static void createObservers(List<Tablet> tablets, List<Cook> cooks) {
         for (Tablet tablet : tablets) {
-            tablet.addObserver(cook);
+            for (Cook cook : cooks) {
+                tablet.addObserver(cook);
+            }
+        }
+    }
+
+    protected static void createOrders(List<Tablet> tablets) {
+        for (Tablet tablet : tablets) {
             tablet.createOrder();
         }
     }

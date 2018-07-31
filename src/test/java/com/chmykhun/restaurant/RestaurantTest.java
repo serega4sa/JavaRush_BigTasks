@@ -2,21 +2,18 @@ package com.chmykhun.restaurant;
 
 import com.chmykhun.restaurant.kitchen.Cook;
 import com.chmykhun.restaurant.kitchen.Waitor;
-import com.chmykhun.restaurant.statistic.StatisticEventManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class RestaurantTest extends Restaurant {
 
     public static void main(String[] args) {
         Waitor waitor = new Waitor();
-        Cook cook = new Cook("Amigo");
-        cook.addObserver(waitor);
-        StatisticEventManager.getInstance().register(cook);
 
-        Runnable testFlow = new RandomOrderGeneratorTask(createTestTablets(2), Collections.singletonList(cook));
+        List<Cook> cooks = createCooks(waitor, "Amigo", "Jack");
+
+        Runnable testFlow = new RandomOrderGeneratorTask(createTestTablets(2), cooks);
         testFlow.run();
 
         try {
