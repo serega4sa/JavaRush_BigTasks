@@ -12,7 +12,7 @@ import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Cook extends Observable implements Observer{
+public class Cook extends Observable implements Observer {
 
     private String cookName;
     private static Logger logger = Logger.getLogger(Tablet.class.getName());
@@ -32,7 +32,7 @@ public class Cook extends Observable implements Observer{
 
     @Override
     public void update(Observable tablet, Object order) {
-        ConsoleHelper.writeMessage(ConsoleHelper.Messages.startCooking + order.toString() + String.format(ConsoleHelper.Messages.cookingTime, ((Order) order).getTotalCookingTime()));
+        ConsoleHelper.writeMessage(ConsoleHelper.Messages.startCooking + order.toString() + String.format(ConsoleHelper.Messages.cookingTime, ((Order) order).getTotalCookingTime() / 60));
         try {
             new AdvertisementManager(((Order) order).getTotalCookingTime()).processVideos();
         } catch (NoVideoAvailableException e1) {

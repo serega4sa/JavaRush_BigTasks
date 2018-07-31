@@ -4,18 +4,23 @@ import com.chmykhun.restaurant.ConsoleHelper;
 import com.chmykhun.restaurant.Tablet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Order {
 
     private static List<Dish> allDishes = Arrays.asList(Dish.values());
-    private List<Dish> orderedDishes;
+    protected List<Dish> orderedDishes = new ArrayList<>();
     private Tablet tablet;
 
     public Order(Tablet tablet) throws IOException {
         this.tablet = tablet;
         ConsoleHelper.writeMessage(String.format(ConsoleHelper.Messages.orderHeadFormat, tablet.getNumber()));
+        initDishes();
+    }
+
+    protected void initDishes() throws IOException {
         orderedDishes = ConsoleHelper.getAllDishesForOrder();
     }
 

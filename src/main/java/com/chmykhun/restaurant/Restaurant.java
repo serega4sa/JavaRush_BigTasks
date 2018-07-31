@@ -4,6 +4,9 @@ import com.chmykhun.restaurant.kitchen.Cook;
 import com.chmykhun.restaurant.kitchen.Waitor;
 import com.chmykhun.restaurant.statistic.StatisticEventManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Restaurant {
 
     public static void main(String[] args) {
@@ -12,14 +15,26 @@ public class Restaurant {
         cook.addObserver(waitor);
         StatisticEventManager.getInstance().register(cook);
 
-        Tablet tablet = new Tablet(1);
-        tablet.addObserver(cook);
-        tablet.createOrder();
+        createOrders(createTablets(2), cook);
+        createDirectorReport();
+    }
 
-        Tablet tablet1 = new Tablet(2);
-        tablet1.addObserver(cook);
-        tablet1.createOrder();
+    protected static List<Tablet> createTablets(int number) {
+        List<Tablet> tablets = new ArrayList<>();
+        for (int i = 1; i <= number; i++) {
+            tablets.add(new Tablet(i));
+        }
+        return tablets;
+    }
 
+    protected static void createOrders(List<Tablet> tablets, Cook cook) {
+        for (Tablet tablet : tablets) {
+            tablet.addObserver(cook);
+            tablet.createOrder();
+        }
+    }
+
+    protected static void createDirectorReport() {
         DirectorTablet dirTabl = new DirectorTablet();
         dirTabl.printReport();
     }

@@ -1,28 +1,20 @@
 package com.chmykhun.restaurant;
 
-import com.chmykhun.restaurant.kitchen.Order;
-
 import java.io.IOException;
-import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Tablet extends Observable {
+public class TestTablet extends Tablet {
 
-    private final int number;
     private static Logger logger = Logger.getLogger(Tablet.class.getName());
 
-    public Tablet(int number) {
-        this.number = number;
+    public TestTablet(int number) {
+        super(number);
     }
 
-    public int getNumber() {
-        return number;
-    }
-
-    public void createOrder() {
+    public void createTestOrder() {
         try {
-            Order order = new Order(this);
+            TestOrder order = new TestOrder(this);
             if (!order.isEmpty()) {
                 ConsoleHelper.writeMessage(order.toString());
                 setChanged();
