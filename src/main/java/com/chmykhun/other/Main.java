@@ -1,4 +1,4 @@
-package com.chmykhun;
+package com.chmykhun.other;
 
 public class Main {
     public static void main(String [] args) {

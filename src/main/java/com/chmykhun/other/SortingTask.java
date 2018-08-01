@@ -1,4 +1,4 @@
-package com.chmykhun;
+package com.chmykhun.other;
 
 import java.util.ArrayList;
 import java.util.List;
