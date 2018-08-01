@@ -12,14 +12,10 @@ public class TestTablet extends Tablet {
         super(number);
     }
 
-    public void createTestOrder() {
+    @Override
+    public void createOrder() {
         try {
-            TestOrder order = new TestOrder(this);
-            if (!order.isEmpty()) {
-                ConsoleHelper.writeMessage(order.toString());
-                setChanged();
-                notifyObservers(order);
-            }
+            createOrder(new TestOrder(this));
         } catch (IOException e) {
             logger.log(Level.SEVERE, ConsoleHelper.Messages.consoleUnavailable);
         }

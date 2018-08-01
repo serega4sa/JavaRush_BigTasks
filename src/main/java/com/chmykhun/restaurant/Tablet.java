@@ -3,17 +3,22 @@ package com.chmykhun.restaurant;
 import com.chmykhun.restaurant.kitchen.Order;
 
 import java.io.IOException;
-import java.util.Observable;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Tablet extends Observable {
+public class Tablet {
 
     private final int number;
     private static Logger logger = Logger.getLogger(Tablet.class.getName());
+    private LinkedBlockingQueue<Order> queue;
 
-    public Tablet(int number) {
+    Tablet(int number) {
         this.number = number;
+    }
+
+    public void setQueue(LinkedBlockingQueue<Order> queue) {
+        this.queue = queue;
     }
 
     public int getNumber() {
@@ -22,14 +27,16 @@ public class Tablet extends Observable {
 
     public void createOrder() {
         try {
-            Order order = new Order(this);
-            if (!order.isEmpty()) {
-                ConsoleHelper.writeMessage(order.toString());
-                setChanged();
-                notifyObservers(order);
-            }
+            createOrder(new Order(this));
         } catch (IOException e) {
             logger.log(Level.SEVERE, ConsoleHelper.Messages.consoleUnavailable);
+        }
+    }
+
+    void createOrder(Order order) {
+        if (!order.isEmpty()) {
+            ConsoleHelper.writeMessage(order.toString());
+            queue.add(order);
         }
     }
 }

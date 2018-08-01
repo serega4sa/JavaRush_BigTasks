@@ -8,10 +8,13 @@ import com.chmykhun.restaurant.statistic.StatisticEventManager;
 import com.chmykhun.restaurant.statistic.event.CookedOrderEventDataRow;
 
 import java.util.Observable;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Cook extends Observable {
+public class Cook extends Observable implements Runnable {
+
+    private LinkedBlockingQueue<Order> queue;
 
     private String cookName;
     private boolean busy;
@@ -21,12 +24,12 @@ public class Cook extends Observable {
         cookName = name;
     }
 
-    public String getCookName() {
-        return cookName;
+    public void setQueue(LinkedBlockingQueue<Order> queue) {
+        this.queue = queue;
     }
 
-    public boolean isBusy() {
-        return busy;
+    public String getCookName() {
+        return cookName;
     }
 
     public void startCookingOrder(Order order) {
@@ -44,6 +47,21 @@ public class Cook extends Observable {
         setChanged();
         notifyObservers(order);
         busy = false;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                if (!queue.isEmpty() && !busy) {
+                    startCookingOrder(queue.poll());
+                } else {
+                    Thread.sleep(10);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

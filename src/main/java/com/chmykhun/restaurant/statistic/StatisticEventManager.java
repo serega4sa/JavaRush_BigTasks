@@ -32,10 +32,6 @@ public class StatisticEventManager {
         storage = new StatisticStorage();
     }
 
-    public Set<Cook> getCookSet() {
-        return cookSet;
-    }
-
     public void register(EventDataRow data) {
         storage.put(data);
     }
