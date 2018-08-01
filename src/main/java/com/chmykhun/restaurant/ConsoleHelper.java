@@ -20,7 +20,7 @@ public class ConsoleHelper {
         String incorrectDish = " is not detected";
         String startCooking = "Start cooking - ";
         String cookingTime = ", cooking time %s min";
-        String cooked = " was cooked by ";
+        String cookedAndServed = " was cooked by %s and served by %s";
         String videoProcessing = "%s is displaying... %d, %d";
         String noSuitableVideo = "No video is available for the order ";
 

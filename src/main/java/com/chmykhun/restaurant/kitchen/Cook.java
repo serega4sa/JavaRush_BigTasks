@@ -7,14 +7,14 @@ import com.chmykhun.restaurant.ad.NoVideoAvailableException;
 import com.chmykhun.restaurant.statistic.StatisticEventManager;
 import com.chmykhun.restaurant.statistic.event.CookedOrderEventDataRow;
 
-import java.util.Observable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Cook extends Observable implements Runnable {
+public class Cook implements Runnable {
 
-    private LinkedBlockingQueue<Order> queue;
+    private LinkedBlockingQueue<Order> orders_queue_in;
+    private LinkedBlockingQueue<Order> orders_queue_out;
 
     private String cookName;
     private boolean busy;
@@ -24,8 +24,12 @@ public class Cook extends Observable implements Runnable {
         cookName = name;
     }
 
-    public void setQueue(LinkedBlockingQueue<Order> queue) {
-        this.queue = queue;
+    public void setOredersQueueIn(LinkedBlockingQueue<Order> oreders_in_queue) {
+        this.orders_queue_in = oreders_in_queue;
+    }
+
+    public void setOredersQueueOut(LinkedBlockingQueue<Order> oreders_queue_out) {
+        this.orders_queue_out = oreders_queue_out;
     }
 
     public String getCookName() {
@@ -38,14 +42,13 @@ public class Cook extends Observable implements Runnable {
         try {
             new AdvertisementManager(order.getTotalCookingTime()).processVideos();
             Thread.sleep(order.getTotalCookingTime() / 6);
-        } catch (NoVideoAvailableException e1) {
+        } catch (NoVideoAvailableException | UnsupportedOperationException e1) {
             logger.log(Level.INFO, ConsoleHelper.Messages.noSuitableVideo + order.toString());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         StatisticEventManager.getInstance().register(new CookedOrderEventDataRow(String.valueOf(order.getTablet().getNumber()), cookName, order.getTotalCookingTime(), order.getOrderedDishes()));
-        setChanged();
-        notifyObservers(order);
+        orders_queue_out.add(order);
         busy = false;
     }
 
@@ -53,8 +56,10 @@ public class Cook extends Observable implements Runnable {
     public void run() {
         while (true) {
             try {
-                if (!queue.isEmpty() && !busy) {
-                    startCookingOrder(queue.poll());
+                if (!orders_queue_in.isEmpty() && !busy) {
+                    Order order = orders_queue_in.poll();
+                    order.setCookName(cookName);
+                    startCookingOrder(order);
                 } else {
                     Thread.sleep(10);
                 }

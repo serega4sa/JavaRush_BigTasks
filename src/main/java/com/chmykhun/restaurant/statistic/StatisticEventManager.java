@@ -3,6 +3,7 @@ package com.chmykhun.restaurant.statistic;
 import com.chmykhun.restaurant.ad.Advertisement;
 import com.chmykhun.restaurant.ad.StatisticAdvertisementManager;
 import com.chmykhun.restaurant.kitchen.Cook;
+import com.chmykhun.restaurant.kitchen.Waitor;
 import com.chmykhun.restaurant.statistic.event.CookedOrderEventDataRow;
 import com.chmykhun.restaurant.statistic.event.EventDataRow;
 import com.chmykhun.restaurant.statistic.event.EventType;
@@ -23,6 +24,7 @@ public class StatisticEventManager {
     private Map<String, Long> advertisementProfitReport;
     private Map<String, Map<Cook, Long>> cookWorkloadingReport;
     private Set<Cook> cookSet = new HashSet<>();
+    private Set<Waitor> waitorSet = new HashSet<>();
 
     public static StatisticEventManager getInstance() {
         return manager;
@@ -38,6 +40,10 @@ public class StatisticEventManager {
 
     public void register(Cook cook) {
         cookSet.add(cook);
+    }
+
+    public void register(Waitor waitor) {
+        waitorSet.add(waitor);
     }
 
     public Map<String, Long> getAdvertisementProfit() {

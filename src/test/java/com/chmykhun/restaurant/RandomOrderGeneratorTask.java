@@ -4,20 +4,21 @@ import java.util.List;
 
 public class RandomOrderGeneratorTask implements Runnable {
 
-    private static final int ORDER_CREATING_INTERVAL = 15000;
+    private int interval;
     private List<TestTablet> tablets;
 
-    public RandomOrderGeneratorTask(List<TestTablet> tablets) {
+    public RandomOrderGeneratorTask(List<TestTablet> tablets, int interval) {
         this.tablets = tablets;
+        this.interval = interval;
     }
 
     @Override
     public void run() {
-        while (true) {
+        while (!RestaurantTest.isStopWorking()) {
             try {
                 int tabletId = (int) (Math.random() * tablets.size());
                 tablets.get(tabletId).createOrder();
-                Thread.sleep(ORDER_CREATING_INTERVAL);
+                Thread.sleep(interval);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

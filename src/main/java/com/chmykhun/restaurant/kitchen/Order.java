@@ -13,6 +13,7 @@ public class Order {
     private static List<Dish> allDishes = Arrays.asList(Dish.values());
     protected List<Dish> orderedDishes = new ArrayList<>();
     private Tablet tablet;
+    private String cookName;
 
     public Order(Tablet tablet) throws IOException {
         this.tablet = tablet;
@@ -30,6 +31,14 @@ public class Order {
 
     public Tablet getTablet() {
         return tablet;
+    }
+
+    public String getCookName() {
+        return cookName;
+    }
+
+    public void setCookName(String cookName) {
+        this.cookName = cookName;
     }
 
     public static String allDishesToString() {
