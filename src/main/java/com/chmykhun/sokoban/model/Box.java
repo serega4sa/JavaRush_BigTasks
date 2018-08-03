@@ -2,7 +2,7 @@ package com.chmykhun.sokoban.model;
 
 import java.awt.*;
 
-public class Box extends GameObject implements Movable {
+public class Box extends CollisionObject implements Movable {
 
     public Box(int x, int y) {
         super(x, y);

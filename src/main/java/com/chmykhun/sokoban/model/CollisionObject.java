@@ -1,18 +1,14 @@
 package com.chmykhun.sokoban.model;
 
-public class CollisionObject {
-
-    private int x;
-    private int y;
+public abstract class CollisionObject extends GameObject {
 
     public CollisionObject(int x, int y) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
     }
 
     public boolean isCollision(GameObject gameObject, Direction direction) {
-        return (getXAfterMove(gameObject.getX(), direction) == x &&
-                getYAfterMove(gameObject.getY() , direction) == y);
+        return (getXAfterMove(gameObject.getX(), direction) == getX() &&
+                getYAfterMove(gameObject.getY() , direction) == getY());
     }
 
     private int getXAfterMove(int x, Direction direction) {
@@ -26,15 +22,15 @@ public class CollisionObject {
     private int getDelta(boolean isX, Direction direction) {
         if (isX) {
             if (direction.equals(Direction.LEFT)) {
-                return -1;
+                return -Model.FIELD_SELL_SIZE;
             } else if (direction.equals(Direction.RIGHT)) {
-                return 1;
+                return Model.FIELD_SELL_SIZE;
             }
         } else {
             if (direction.equals(Direction.UP)) {
-                return -1;
+                return -Model.FIELD_SELL_SIZE;
             } else if (direction.equals(Direction.DOWN)) {
-                return 1;
+                return Model.FIELD_SELL_SIZE;
             }
         }
         return 0;
