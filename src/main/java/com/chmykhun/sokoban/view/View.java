@@ -1,6 +1,7 @@
 package com.chmykhun.sokoban.view;
 
 import com.chmykhun.sokoban.controller.Controller;
+import com.chmykhun.sokoban.controller.EventListener;
 
 import javax.swing.*;
 
@@ -21,5 +22,9 @@ public class View extends JFrame {
         setLocationRelativeTo(null);
         setTitle("Сокобан");
         setVisible(true);
+    }
+
+    private void setEventListener(EventListener eventListener) {
+        field.setEventListener(eventListener);
     }
 }
