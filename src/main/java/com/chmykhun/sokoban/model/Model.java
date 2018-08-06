@@ -35,6 +35,49 @@ public class Model {
     }
 
     public void move(Direction direction) {
-        //TODO: implement logic
+        Player player = gameObjects.getPlayer();
+        if (checkWallCollision(player, direction) || checkBoxCollision(player, direction)) {
+            return;
+        }
+        player.move(player.getDelta(true, direction), player.getDelta(false, direction));
+        checkCompletion();
+    }
+
+    private boolean checkWallCollision(CollisionObject gameObject, Direction direction) {
+        for (Wall wall : gameObjects.getWalls()) {
+            if (wall.isCollision(gameObject, direction)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkBoxCollision(CollisionObject gameObject, Direction direction) {
+        for (Box box : gameObjects.getBoxes()) {
+            if (box.isCollision(gameObject, direction)) {
+                boolean isBoxCanBeMoved = !checkWallCollision(box, direction) || !checkBoxCollision(box, direction);
+                if (isBoxCanBeMoved) {
+                    box.move(box.getDelta(true, direction), box.getDelta(false, direction));
+                    break;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void checkCompletion() {
+        int filledHomes = 0;
+        for (Home home : gameObjects.getHomes()) {
+            for (Box box : gameObjects.getBoxes()) {
+                if (home.getX() == box.getX() && home.getY() == box.getY()) {
+                    filledHomes++;
+                    break;
+                }
+            }
+        }
+        if (filledHomes == gameObjects.getHomes().size()) {
+            eventListener.levelCompleted(currentLevel);
+        }
     }
 }

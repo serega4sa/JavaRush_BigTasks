@@ -19,7 +19,7 @@ public abstract class CollisionObject extends GameObject {
         return y + getDelta(false, direction);
     }
 
-    private int getDelta(boolean isX, Direction direction) {
+    public int getDelta(boolean isX, Direction direction) {
         if (isX) {
             if (direction.equals(Direction.LEFT)) {
                 return -Model.FIELD_SELL_SIZE;

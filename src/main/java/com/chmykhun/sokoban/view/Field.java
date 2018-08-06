@@ -3,6 +3,7 @@ package com.chmykhun.sokoban.view;
 import com.chmykhun.sokoban.controller.EventListener;
 import com.chmykhun.sokoban.model.Direction;
 import com.chmykhun.sokoban.model.GameObject;
+import com.chmykhun.sokoban.model.Model;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,8 +29,21 @@ public class Field extends JPanel {
     public void paint(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillRect(getX(), getY(), getWidth(), getHeight());
+        drawGrid(g);
         for (GameObject gameObject : view.getGameObjects().getAll()) {
             gameObject.draw(g);
+        }
+    }
+
+    private void drawGrid(Graphics g) {
+        g.setColor(Color.GRAY);
+        for (int i = 1; i < getWidth(); i++) {
+            int x = i * Model.FIELD_SELL_SIZE;
+            g.drawLine(x, 0, x, getHeight());
+        }
+        for (int i = 1; i < getHeight(); i++) {
+            int y = i * Model.FIELD_SELL_SIZE;
+            g.drawLine(0, y, getWidth(), y);
         }
     }
 

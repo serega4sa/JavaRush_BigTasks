@@ -14,7 +14,7 @@ public class Home extends GameObject {
     @Override
     public void draw(Graphics graphics) {
         graphics.setColor(new Color(255,0,0,150));
-        graphics.drawOval(getX() / 2, getY() / 2, getWidth(), getHeight());
-        graphics.fillOval(getX() / 2, getY() / 2, getWidth(), getHeight());
+        graphics.drawOval(getX() + Model.FIELD_SELL_SIZE / 4, getY() + Model.FIELD_SELL_SIZE / 4, getWidth(), getHeight());
+        graphics.fillOval(getX() + Model.FIELD_SELL_SIZE / 4, getY() + Model.FIELD_SELL_SIZE / 4, getWidth(), getHeight());
     }
 }
