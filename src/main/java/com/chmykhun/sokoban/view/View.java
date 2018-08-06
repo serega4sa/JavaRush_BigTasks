@@ -2,6 +2,7 @@ package com.chmykhun.sokoban.view;
 
 import com.chmykhun.sokoban.controller.Controller;
 import com.chmykhun.sokoban.controller.EventListener;
+import com.chmykhun.sokoban.model.GameObjects;
 
 import javax.swing.*;
 
@@ -24,7 +25,21 @@ public class View extends JFrame {
         setVisible(true);
     }
 
-    private void setEventListener(EventListener eventListener) {
+    public void update() {
+        field.repaint();
+    }
+
+    public void setEventListener(EventListener eventListener) {
         field.setEventListener(eventListener);
+    }
+
+    public GameObjects getGameObjects() {
+        return controller.getGameObjects();
+    }
+
+    public void completed(int level) {
+        update();
+        JOptionPane.showMessageDialog(this, "Congratulations! You've completed level #" + level);
+        controller.startNextLevel();
     }
 }

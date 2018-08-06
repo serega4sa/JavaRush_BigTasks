@@ -1,6 +1,7 @@
 package com.chmykhun.sokoban.controller;
 
 import com.chmykhun.sokoban.model.Direction;
+import com.chmykhun.sokoban.model.GameObjects;
 import com.chmykhun.sokoban.model.Model;
 import com.chmykhun.sokoban.view.View;
 
@@ -13,29 +14,39 @@ public class Controller implements EventListener {
         view = new View(this);
         model = new Model();
         view.init();
+        model.restart();
+        view.setEventListener(this);
+        model.setEventListener(this);
     }
 
     public static void main(String[] args) {
         Controller controller = new Controller();
     }
 
+    public GameObjects getGameObjects() {
+        return model.getGameObjects();
+    }
+
     @Override
     public void move(Direction direction) {
-        //TODO: implement logic
+        model.move(direction);
+        view.update();
     }
 
     @Override
     public void restart() {
-        //TODO: implement logic
+        model.restart();
+        view.update();
     }
 
     @Override
     public void startNextLevel() {
-        //TODO: implement logic
+        model.startNextLevel();
+        view.update();
     }
 
     @Override
     public void levelCompleted(int level) {
-        //TODO: implement logic
+        view.completed(level);
     }
 }
