@@ -58,12 +58,16 @@ public class Model {
     private boolean checkBoxCollision(CollisionObject gameObject, Direction direction) {
         for (Box box : gameObjects.getBoxes()) {
             if (box.isCollision(gameObject, direction)) {
-                boolean isBoxCanBeMoved = !checkWallCollision(box, direction) || !checkBoxCollision(box, direction);
-                if (isBoxCanBeMoved) {
-                    box.move(box.getDelta(true, direction), box.getDelta(false, direction));
-                    break;
+                if (gameObject instanceof Player) {
+                    boolean isBoxCanBeMoved = !checkWallCollision(box, direction) && !checkBoxCollision(box, direction);
+                    if (isBoxCanBeMoved) {
+                        box.move(box.getDelta(true, direction), box.getDelta(false, direction));
+                        break;
+                    }
+                    return true;
+                } else {
+                    return true;
                 }
-                return true;
             }
         }
         return false;

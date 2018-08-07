@@ -26,7 +26,7 @@ public class LevelLoader {
             BufferedReader reader = new BufferedReader(new FileReader(levelsSource.toFile()));
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.matches("Maze")) {
+                if (line.contains("Maze")) {
                     List<String> levelConfig = getLevelConfiguration(reader);
                     int width = getIntAfterColumn(levelConfig.get(1));
                     int height = getIntAfterColumn(levelConfig.get(2));
