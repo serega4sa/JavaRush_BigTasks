@@ -21,7 +21,7 @@ public class View extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(500, 500);
         setLocationRelativeTo(null);
-        setTitle("Сокобан");
+        setTitle("Sokoban. Level: #" + controller.getCurrentLevel());
         setVisible(true);
     }
 

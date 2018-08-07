@@ -24,6 +24,10 @@ public class Model {
         return gameObjects;
     }
 
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
     public void restart() {
         restartLevel(currentLevel);
     }

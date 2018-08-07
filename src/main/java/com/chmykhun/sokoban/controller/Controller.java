@@ -27,6 +27,10 @@ public class Controller implements EventListener {
         return model.getGameObjects();
     }
 
+    public int getCurrentLevel() {
+        return model.getCurrentLevel();
+    }
+
     @Override
     public void move(Direction direction) {
         model.move(direction);
