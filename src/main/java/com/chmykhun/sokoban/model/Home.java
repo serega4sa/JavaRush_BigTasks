@@ -17,4 +17,9 @@ public class Home extends GameObject {
         graphics.drawOval(getX() + Model.FIELD_SELL_SIZE / 4, getY() + Model.FIELD_SELL_SIZE / 4, getWidth(), getHeight());
         graphics.fillOval(getX() + Model.FIELD_SELL_SIZE / 4, getY() + Model.FIELD_SELL_SIZE / 4, getWidth(), getHeight());
     }
+
+    @Override
+    public <T extends GameObject> T cloneGameObject() {
+        return (T) new Home(getX(), getY());
+    }
 }

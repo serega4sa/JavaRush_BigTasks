@@ -14,4 +14,9 @@ public class Wall extends CollisionObject {
         graphics.drawRect(getX(), getY(), getWidth(), getHeight());
         graphics.fillOval(getX(), getY(), getWidth(), getHeight());
     }
+
+    @Override
+    public <T extends GameObject> T cloneGameObject() {
+        return (T) new Wall(getX(), getY());
+    }
 }

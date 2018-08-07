@@ -5,7 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class LevelLoader {
 
@@ -18,7 +20,7 @@ public class LevelLoader {
     }
 
     public GameObjects getLevel(int level) {
-        return levels.get(level - 1);
+        return getCopyOfGameObjects(levels.get(level - 1));
     }
 
     private void parseLevels() {
@@ -75,5 +77,22 @@ public class LevelLoader {
                 }
             }
         }
+    }
+
+    private GameObjects getCopyOfGameObjects(GameObjects sourceGameObjects) {
+        GameObjects copyGameObjects = new GameObjects();
+        copyGameObjects.setWalls(getClone(sourceGameObjects.getWalls()));
+        copyGameObjects.setBoxes(getClone(sourceGameObjects.getBoxes()));
+        copyGameObjects.setHomes(getClone(sourceGameObjects.getHomes()));
+        copyGameObjects.setPlayer(new Player(sourceGameObjects.getPlayer().getX(), sourceGameObjects.getPlayer().getY()));
+        return copyGameObjects;
+    }
+
+    private <T extends GameObject> Set<T> getClone(Set<T> listToClone) {
+        Set<T> set = new HashSet<>();
+        for (T item : listToClone) {
+            set.add(item.cloneGameObject());
+        }
+        return set;
     }
 }

@@ -56,4 +56,6 @@ public abstract class GameObject {
     }
 
     public abstract void draw(Graphics graphics);
+
+    public abstract <T extends GameObject> T cloneGameObject();
 }

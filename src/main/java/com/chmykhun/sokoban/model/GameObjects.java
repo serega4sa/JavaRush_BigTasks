@@ -18,6 +18,10 @@ public class GameObjects {
         this.walls.add(wall);
     }
 
+    public void setWalls(Set<Wall> walls) {
+        this.walls = walls;
+    }
+
     public Set<Box> getBoxes() {
         return boxes;
     }
@@ -26,12 +30,20 @@ public class GameObjects {
         this.boxes.add(boxe);
     }
 
+    public void setBoxes(Set<Box> boxes) {
+        this.boxes = boxes;
+    }
+
     public Set<Home> getHomes() {
         return homes;
     }
 
     public void addHome(Home home) {
         this.homes.add(home);
+    }
+
+    public void setHomes(Set<Home> homes) {
+        this.homes = homes;
     }
 
     public Player getPlayer() {

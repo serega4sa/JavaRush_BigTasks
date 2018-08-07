@@ -20,4 +20,9 @@ public class Player extends CollisionObject implements Movable {
         graphics.drawOval(getX() + Model.FIELD_SELL_SIZE / 4, getY(), getWidth() / 2, getHeight());
         graphics.fillOval(getX() + Model.FIELD_SELL_SIZE / 4, getY(), getWidth() / 2, getHeight());
     }
+
+    @Override
+    public <T extends GameObject> T cloneGameObject() {
+        return (T) new Player(getX(), getY());
+    }
 }

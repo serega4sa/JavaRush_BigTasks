@@ -24,4 +24,9 @@ public class Box extends CollisionObject implements Movable {
         graphics.drawLine(getX(), getY(), getX() + getWidth(), getY() + getHeight());
         graphics.drawLine(getX(), getY() + getHeight(), getX() + getWidth(), getY());
     }
+
+    @Override
+    public <T extends GameObject> T cloneGameObject() {
+        return (T) new Box(getX(), getY());
+    }
 }
