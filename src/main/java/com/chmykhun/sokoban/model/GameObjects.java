@@ -5,32 +5,41 @@ import java.util.Set;
 
 public class GameObjects {
 
-    private Set<Wall> walls;
-    private Set<Box> boxes;
-    private Set<Home> homes;
+    private Set<Wall> walls = new HashSet<>();
+    private Set<Box> boxes = new HashSet<>();
+    private Set<Home> homes = new HashSet<>();
     private Player player;
-
-    public GameObjects(Set<Wall> walls, Set<Box> boxes, Set<Home> homes, Player player) {
-        this.walls = walls;
-        this.boxes = boxes;
-        this.homes = homes;
-        this.player = player;
-    }
 
     public Set<Wall> getWalls() {
         return walls;
+    }
+
+    public void addWall(Wall wall) {
+        this.walls.add(wall);
     }
 
     public Set<Box> getBoxes() {
         return boxes;
     }
 
+    public void addBox(Box boxe) {
+        this.boxes.add(boxe);
+    }
+
     public Set<Home> getHomes() {
         return homes;
     }
 
+    public void addHome(Home home) {
+        this.homes.add(home);
+    }
+
     public Player getPlayer() {
         return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public Set<GameObject> getAll() {
