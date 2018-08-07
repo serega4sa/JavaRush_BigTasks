@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Collections;
+import java.util.Set;
 
 public class Field extends JPanel {
 
@@ -30,20 +32,36 @@ public class Field extends JPanel {
         g.setColor(Color.BLACK);
         g.fillRect(getX(), getY(), getWidth(), getHeight());
         drawGrid(g);
-        for (GameObject gameObject : view.getGameObjects().getAll()) {
-            gameObject.draw(g);
-        }
+        drawGameObjects(g);
     }
 
     private void drawGrid(Graphics g) {
         g.setColor(Color.GRAY);
-        for (int i = 1; i < getWidth(); i++) {
-            int x = i * Model.FIELD_SELL_SIZE;
-            g.drawLine(x, 0, x, getHeight());
+        drawLines(g, true, getHeight());
+        drawLines(g, false, getWidth());
+    }
+
+    private void drawLines(Graphics g, boolean isX, int maxPos) {
+        for (int i = 1; i < maxPos; i++) {
+            int sellPos = i * Model.FIELD_SELL_SIZE;
+            if (isX) {
+                g.drawLine(sellPos, 0, sellPos, maxPos);
+            } else {
+                g.drawLine(0, sellPos, maxPos, sellPos);
+            }
         }
-        for (int i = 1; i < getHeight(); i++) {
-            int y = i * Model.FIELD_SELL_SIZE;
-            g.drawLine(0, y, getWidth(), y);
+    }
+
+    private void drawGameObjects(Graphics g) {
+        drawGameObjects(g, view.getGameObjects().getWalls());
+        drawGameObjects(g, view.getGameObjects().getHomes());
+        drawGameObjects(g, view.getGameObjects().getBoxes());
+        drawGameObjects(g, Collections.singleton(view.getGameObjects().getPlayer()));
+    }
+
+    private void drawGameObjects(Graphics g, Set<? extends GameObject> gameObjects) {
+        for (GameObject gameObject : gameObjects) {
+            gameObject.draw(g);
         }
     }
 
