@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Model {
 
-    private final int FIELD_WIDTH = 4;
+    public static final int FIELD_WIDTH = 4;
 
     private List<List<Tile>> gameTiles;
     private int score;
@@ -25,15 +25,52 @@ public class Model {
             }
             gameTiles.add(tilesColumn);
         }
+        addTile();
+    }
+
+    public List<List<Tile>> getGameTiles() {
+        return gameTiles;
     }
 
     public void resetGameTiles() {
         initGameTiles();
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void resetGameScore() {
+        score = 0;
+    }
+
+    public int getMaxTile() {
+        return maxTile;
+    }
+
     public void addTile() {
         List<Tile> emptyTiles = getEmptyTiles();
         emptyTiles.get((int) (emptyTiles.size() * Math.random())).setValue(Math.random() < 0.9 ? 2 : 4);
+    }
+
+    public boolean canMove() {
+        if (!getEmptyTiles().isEmpty()) {
+            return true;
+        }
+
+        List<List<Tile>> origGameTiles = getGameTilesDeepCopy();
+        int origScore = score;
+
+        for (Direction direction : Direction.values()) {
+            move(direction);
+        }
+
+        boolean canMove = compareLists(origGameTiles, gameTiles);
+
+        gameTiles = origGameTiles;
+        score = origScore;
+
+        return canMove;
     }
 
     public void left() {
@@ -141,12 +178,46 @@ public class Model {
         boolean isTilesMerged = false;
         for (int i = 0; i < tiles.size() - 1; i++) {
             if (tiles.get(i).getValue() > 0 && tiles.get(i).getValue() == tiles.get(i + 1).getValue()) {
-                tiles.get(i).setValue(tiles.get(i).getValue() * 2);
+                int newTileValue = tiles.get(i).getValue() * 2;
+                maxTile = newTileValue > maxTile ? newTileValue : maxTile;
+                score += newTileValue;
+                tiles.get(i).setValue(newTileValue);
                 tiles.get(i + 1).setValue(0);
                 compressTiles(tiles);
                 isTilesMerged = true;
             }
         }
         return isTilesMerged;
+    }
+
+    /**
+     * Creates a copy of two-dimensional game tiles list
+     * @return Deep copy of game tiles list
+     */
+    private List<List<Tile>> getGameTilesDeepCopy() {
+        List<List<Tile>> copyGameTiles = new ArrayList<>();
+        for (List<Tile> gameTile : gameTiles) {
+            List<Tile> gameTiles = new ArrayList<>();
+            for (Tile tile : gameTile) {
+                gameTiles.add(new Tile(tile.getValue()));
+            }
+            copyGameTiles.add(gameTiles);
+        }
+        return copyGameTiles;
+    }
+
+    /**
+     * Compares two-dimensional lists
+     * @return true if lists are different
+     */
+    private boolean compareLists(List<List<Tile>> list1, List<List<Tile>> list2) {
+        for (int i = 0; i < list1.size(); i++) {
+            for (int j = 0; j < list1.get(i).size(); j++) {
+                if (list1.get(i).get(j).getValue() != list2.get(i).get(j).getValue()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
