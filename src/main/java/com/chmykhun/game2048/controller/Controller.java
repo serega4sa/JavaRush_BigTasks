@@ -43,6 +43,7 @@ public class Controller extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         if (model.canMove()) {
             if (!view.isGameWon() && !view.isGameLost()) {
+                model.setSaveNeeded(true);
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                     model.left();
                 } else if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -53,6 +54,8 @@ public class Controller extends KeyAdapter {
                     model.down();
                 } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     resetGame();
+                } else if (e.getKeyCode() == KeyEvent.VK_Z) {
+                    model.rollBack();
                 }
                 if (model.getMaxTile() == WINNING_TILE) {
                     view.setGameWon(true);

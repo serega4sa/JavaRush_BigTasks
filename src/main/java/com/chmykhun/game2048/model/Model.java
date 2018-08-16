@@ -3,6 +3,7 @@ package com.chmykhun.game2048.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 public class Model {
 
@@ -11,6 +12,10 @@ public class Model {
     private List<List<Tile>> gameTiles;
     private int score;
     private int maxTile;
+
+    private boolean isSaveNeeded;
+    private Stack<List<List<Tile>>> previousStates = new Stack<>();
+    private Stack<Integer> previousScores = new Stack<>();
 
     public Model() {
         initGameTiles();
@@ -48,6 +53,10 @@ public class Model {
         return maxTile;
     }
 
+    public void setSaveNeeded(boolean saveNeeded) {
+        isSaveNeeded = saveNeeded;
+    }
+
     public void addTile() {
         List<Tile> emptyTiles = getEmptyTiles();
         emptyTiles.get((int) (emptyTiles.size() * Math.random())).setValue(Math.random() < 0.9 ? 2 : 4);
@@ -58,14 +67,14 @@ public class Model {
             return true;
         }
 
-        List<List<Tile>> origGameTiles = getGameTilesDeepCopy();
+        List<List<Tile>> origGameTiles = getGameTilesDeepCopy(gameTiles);
         int origScore = score;
 
         for (Direction direction : Direction.values()) {
             move(direction);
         }
 
-        boolean canMove = compareLists(origGameTiles, gameTiles);
+        boolean canMove = isEqual(origGameTiles, gameTiles);
 
         gameTiles = origGameTiles;
         score = origScore;
@@ -90,6 +99,7 @@ public class Model {
     }
 
     private void move(Direction direction) {
+        saveState();
         boolean isTilesCompressed = false;
         boolean isTilesMerged = false;
         for (int i = 0; i < FIELD_WIDTH; i++) {
@@ -100,6 +110,7 @@ public class Model {
         if (isTilesCompressed || isTilesMerged) {
             addTile();
         }
+        saveScore();
     }
 
     /**
@@ -194,9 +205,9 @@ public class Model {
      * Creates a copy of two-dimensional game tiles list
      * @return Deep copy of game tiles list
      */
-    private List<List<Tile>> getGameTilesDeepCopy() {
+    private List<List<Tile>> getGameTilesDeepCopy(List<List<Tile>> originalList) {
         List<List<Tile>> copyGameTiles = new ArrayList<>();
-        for (List<Tile> gameTile : gameTiles) {
+        for (List<Tile> gameTile : originalList) {
             List<Tile> gameTiles = new ArrayList<>();
             for (Tile tile : gameTile) {
                 gameTiles.add(new Tile(tile.getValue()));
@@ -210,7 +221,7 @@ public class Model {
      * Compares two-dimensional lists
      * @return true if lists are different
      */
-    private boolean compareLists(List<List<Tile>> list1, List<List<Tile>> list2) {
+    private boolean isEqual(List<List<Tile>> list1, List<List<Tile>> list2) {
         for (int i = 0; i < list1.size(); i++) {
             for (int j = 0; j < list1.get(i).size(); j++) {
                 if (list1.get(i).get(j).getValue() != list2.get(i).get(j).getValue()) {
@@ -219,5 +230,25 @@ public class Model {
             }
         }
         return false;
+    }
+
+    private void saveState() {
+        if (isSaveNeeded) {
+            previousStates.push(getGameTilesDeepCopy(gameTiles));
+        }
+    }
+
+    private void saveScore() {
+        if (isSaveNeeded) {
+            previousScores.push(score);
+            isSaveNeeded = false;
+        }
+    }
+
+    public void rollBack() {
+        if (!previousStates.isEmpty() && !previousScores.isEmpty()) {
+            gameTiles = previousStates.pop();
+            score = previousScores.pop();
+        }
     }
 }
