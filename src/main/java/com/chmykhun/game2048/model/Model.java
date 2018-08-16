@@ -98,6 +98,11 @@ public class Model {
         move(Direction.DOWN);
     }
 
+    public void randomMove() {
+        int movementId = (int) ((Math.random() * 100) % 4);
+        move(Direction.values()[movementId]);
+    }
+
     private void move(Direction direction) {
         saveState();
         boolean isTilesCompressed = false;

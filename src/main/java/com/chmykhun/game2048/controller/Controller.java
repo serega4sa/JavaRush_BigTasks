@@ -56,6 +56,8 @@ public class Controller extends KeyAdapter {
                     resetGame();
                 } else if (e.getKeyCode() == KeyEvent.VK_Z) {
                     model.rollBack();
+                } else if (e.getKeyCode() == KeyEvent.VK_R) {
+                    model.randomMove();
                 }
                 if (model.getMaxTile() == WINNING_TILE) {
                     view.setGameWon(true);
