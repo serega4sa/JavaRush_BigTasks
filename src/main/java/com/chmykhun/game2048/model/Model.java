@@ -3,6 +3,7 @@ package com.chmykhun.game2048.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Stack;
 
 public class Model {
@@ -101,6 +102,29 @@ public class Model {
     public void randomMove() {
         int movementId = (int) ((Math.random() * 100) % 4);
         move(Direction.values()[movementId]);
+    }
+
+    public void autoMove() {
+        saveState();
+        saveScore();
+        PriorityQueue<MoveEfficiency> queue = new PriorityQueue<>(Direction.values().length, Collections.reverseOrder());
+        for (Direction direction : Direction.values()) {
+            switch (direction) {
+                case LEFT:
+                    queue.add(getMoveEfficiency(this::left));
+                    break;
+                case UP:
+                    queue.add(getMoveEfficiency(this::up));
+                    break;
+                case RIGHT:
+                    queue.add(getMoveEfficiency(this::right));
+                    break;
+                case DOWN:
+                    queue.add(getMoveEfficiency(this::down));
+                    break;
+            }
+        }
+        queue.poll().getMove().move();
     }
 
     private void move(Direction direction) {
@@ -255,5 +279,22 @@ public class Model {
             gameTiles = previousStates.pop();
             score = previousScores.pop();
         }
+    }
+
+    private boolean hasBoardChanged() {
+        return isEqual(gameTiles, previousStates.peek());
+    }
+
+    private MoveEfficiency getMoveEfficiency(Move move) {
+        isSaveNeeded = true;
+        move.move();
+        MoveEfficiency moveEfficiency;
+        if (hasBoardChanged()) {
+            moveEfficiency = new MoveEfficiency(getEmptyTiles().size(), score, move);
+            rollBack();
+        } else {
+            moveEfficiency = new MoveEfficiency(-1, 0, move);
+        }
+        return moveEfficiency;
     }
 }
