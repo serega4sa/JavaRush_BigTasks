@@ -1,4 +1,4 @@
-package com.chmykhun.game2048.model;
+package com.serega4sa.game2048.model;
 
 public class MoveEfficiency implements Comparable<MoveEfficiency> {
 

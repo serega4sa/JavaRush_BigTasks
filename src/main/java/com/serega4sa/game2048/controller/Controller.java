@@ -1,8 +1,8 @@
-package com.chmykhun.game2048.controller;
+package com.serega4sa.game2048.controller;
 
-import com.chmykhun.game2048.model.Model;
-import com.chmykhun.game2048.model.Tile;
-import com.chmykhun.game2048.view.View;
+import com.serega4sa.game2048.model.Model;
+import com.serega4sa.game2048.model.Tile;
+import com.serega4sa.game2048.view.View;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

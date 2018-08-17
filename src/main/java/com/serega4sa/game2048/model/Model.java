@@ -1,4 +1,4 @@
-package com.chmykhun.game2048.model;
+package com.serega4sa.game2048.model;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,7 +1,7 @@
-package com.chmykhun.game2048.view;
+package com.serega4sa.game2048.view;
 
-import com.chmykhun.game2048.controller.Controller;
-import com.chmykhun.game2048.model.Tile;
+import com.serega4sa.game2048.controller.Controller;
+import com.serega4sa.game2048.model.Tile;
 
 import javax.swing.*;
 import java.awt.*;
